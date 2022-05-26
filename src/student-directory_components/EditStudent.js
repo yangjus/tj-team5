@@ -24,16 +24,18 @@ const EditStudent = (props) => {
         setIsOpen(!isOpen);
     };
 
+    const handleDelClose = () => {
+        setIsDeleteOpen(false)
+    }
+
     function deleteClick(e){
         e.preventDefault();
         setIsDeleteOpen(!isDeleteOpen);
     }
 
-    function actuallyDeleteClick(firstName, lastName){
-        deleteDoc(doc(db, "students", "student-"+firstName+"-"+lastName));    
-        setIsDeleteOpen(!isDeleteOpen)
+    function actuallyDeleteClick(){
+        deleteDoc(doc(db, "students", props.studentId));    
     }
-    };
     
     const updateStudentInfo = async() => {
         await updateDoc(doc(db, "students", props.studentId)), {
@@ -95,7 +97,7 @@ const EditStudent = (props) => {
         <Dialog open={isDeleteOpen}>
             <DialogTitle>Are you sure you want to delete this student's profile ({props.firstname})?</DialogTitle>
             <DialogActions>
-                <Button onClick={actuallyDeleteClick(props.firstname, props.lastname)}>Confirm</Button>
+                <Button onClick={(e) => {actuallyDeleteClick(); deleteClick(e)}}>Confirm</Button>
                 <Button onClick={deleteClick}>Cancel</Button>
             </DialogActions>
         </Dialog>

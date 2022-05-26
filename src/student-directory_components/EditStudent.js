@@ -3,6 +3,8 @@ import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogT
 import {ListItem, ListItemIcon, ListItemText, IconButton, Divider} from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import db from '../firebase.js'
+import {collection, doc, getDocs, updateDoc, deleteDoc} from "firebase/firestore";
 
 const EditStudent = (props) => {
 
@@ -21,30 +23,12 @@ const EditStudent = (props) => {
         e.preventDefault();
         setIsDeleteOpen(!isDeleteOpen);
     }
-    
-    const editFirstName = (studentID, newFirstName) => {
-        updateDoc(doc(db, "students", studentID)), {
-            firstname: newFirstName
-        }
+
+    function actuallyDeleteClick(firstName, lastName){
+        deleteDoc(doc(db, "students", "student-"+firstName+"-"+lastName));    
+        setIsDeleteOpen(!isDeleteOpen)
     }
-    
-    const editLastName = (studentID, newLastName) => {
-        updateDoc(doc(db, "students", studentID)), {
-            lastname: newLastName
-        }
-    }
-    
-    const editBirth = (studentID, newBirthday) => {
-        updateDoc(doc(db, "students", studentID)), {
-            birthday: newBirthday
-        }
-    }
-    
-    const editGrade = (studentID, newGrade) => {
-        updateDoc(doc(db, "students", studentID)), {
-            grade: newGrade
-        }
-    }
+
 
     const hoverStyle = {
         bgcolor: '#ADD8E6',
@@ -75,7 +59,7 @@ const EditStudent = (props) => {
         <Dialog open={isOpen}>
             <DialogTitle>{props.firstname}</DialogTitle>
             <DialogContent>
-                <TextField autoFocus margin="dense" id="firstname" label="First Name" type="text" fullWidth variant="standard"/>
+                <TextField placeholder = "bruh" autoFocus margin="dense" id="firstname" label="First Name" type="text" fullWidth variant="standard"/>
                 <TextField autoFocus margin="dense" id="lastname" label="Last Name" type="text" fullWidth variant="standard"/>
                 <TextField autoFocus margin="dense" id="grade" label="Grade" type="text" fullWidth variant="standard"/>
                 <TextField autoFocus margin="dense" id="birthday" label="Birthday" type="text" fullWidth variant="standard"/>
@@ -88,8 +72,8 @@ const EditStudent = (props) => {
         <Dialog open={isDeleteOpen}>
             <DialogTitle>Are you sure you want to delete {props.firstname}?</DialogTitle>
             <DialogActions>
-                <Button onClick={deleteClick}>Save</Button>
-                <Button onClick={deleteClick}>Exit</Button>
+                <Button onClick={actuallyDeleteClick(props.firstname, props.lastname)}>Confirm</Button>
+                <Button onClick={deleteClick}>Cancel</Button>
             </DialogActions>
         </Dialog>
         </>

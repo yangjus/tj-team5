@@ -24,10 +24,6 @@ const EditStudent = (props) => {
         setIsOpen(!isOpen);
     };
 
-    const handleDelClose = () => {
-        setIsDeleteOpen(false)
-    }
-
     function deleteClick(e){
         e.preventDefault();
         setIsDeleteOpen(!isDeleteOpen);

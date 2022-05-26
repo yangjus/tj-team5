@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../Navbar.js';
 import {List, IconButton, Grid} from '@mui/material';
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from '@mui/material';
 import AddReactionIcon from '@mui/icons-material/AddReaction';
 import db from '../firebase.js'
 import {collection, doc, getDocs, updateDoc, deleteDoc} from "firebase/firestore";
@@ -13,6 +14,12 @@ const StudentDirectory = () => {
     const { username } = state; /*the user */
 
     const [students, setStudents] = useState([])
+    const [isAddOpen, setIsAddOpen] = useState(false)
+
+    const firstnameForm = useRef();
+    const lastnameForm = useRef();
+    const birthdayForm = useRef();
+    const gradeForm = useRef();
 
     const printStudents = async () => {
         const documents = await getDocs(collection(db, "students"));
@@ -36,13 +43,28 @@ const StudentDirectory = () => {
 
     console.log(students)
 
+    function addClick(e){
+        e.preventDefault();
+        setIsAddOpen(!isAddOpen);
+    }
+
+    const addStudent = async() => {
+        await setDoc(doc(db, "students", "new-city-id"), {
+            firstname: firstnameForm.current.value,
+            lastname: lastnameForm.current.value,
+            grade: gradeForm.current.value,
+            birthday: birthdayForm.current.value
+            
+        });
+    }
+
     return (
         <>
         <Navbar />
         <h1>Student Directory</h1>
         <Grid container direction="row" alignItems="center" justifyContent="center">
             <p>Add Student: </p>
-            <IconButton>
+            <IconButton onClick={e => addClick(e)}>
                 <AddReactionIcon />
             </IconButton>
         </Grid>
@@ -57,6 +79,23 @@ const StudentDirectory = () => {
                 }
             </List>
         </Grid>
+        <Dialog open={isAddOpen}>
+            <DialogTitle>Add New Student</DialogTitle>
+            <DialogContent>
+                <TextField autoFocus margin="dense" inputRef={firstnameForm}
+                id="firstname" label="First Name" type="text" fullWidth variant="standard"/>
+                <TextField autoFocus margin="dense" inputRef={lastnameForm}
+                id="lastname" label="Last Name" type="text" fullWidth variant="standard"/>
+                <TextField autoFocus margin="dense" inputRef={gradeForm}
+                id="grade" label="Grade" type="text" fullWidth variant="standard"/>
+                <TextField autoFocus margin="dense" inputRef={birthdayForm}
+                id="birthday" label="Birthday" type="text" fullWidth variant="standard"/>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={addClick}>Save</Button>
+                <Button onClick={addClick}>Exit</Button>
+            </DialogActions>
+            </Dialog>
         </>
     );
 }

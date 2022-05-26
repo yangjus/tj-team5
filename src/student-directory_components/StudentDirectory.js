@@ -49,13 +49,14 @@ const StudentDirectory = () => {
     }
 
     const addStudent = async() => {
-        await setDoc(doc(db, "students", "new-city-id"), {
+        let obj = {
             firstname: firstnameForm.current.value,
             lastname: lastnameForm.current.value,
             grade: gradeForm.current.value,
             birthday: birthdayForm.current.value
-            
-        });
+        }
+        console.log(obj);
+        await setDoc(doc(db, "students", "ok"), obj);
     }
 
     return (

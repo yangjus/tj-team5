@@ -1,12 +1,10 @@
 import React from "react";
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Box, AppBar, Toolbar, Typography, TextField, Button } from '@mui/material';
-import { Link } from "react-router-dom";
 import './Login.css';
-import db from '../firebase.js';
-import { getFirestore, collection, getDocs, doc, getDoc, setDoc, addDoc  } from "firebase/firestore";
+import db from "../firebase.js"
 import { useNavigate } from "react-router-dom";
-
+import {collection, doc, getDocs, setDoc} from "firebase/firestore";
 
 const Login = (props) => {
     let navigate = useNavigate();
@@ -17,7 +15,7 @@ const Login = (props) => {
     function getCredentials(){
       getDocs(collection(db, "staff"))
       .then((allDocs) => {allDocs.forEach((d) => (((String(username) == String(d.data().username)) && (String(password) == String(d.data().password)))
-        ?(setLogged(true), setDoc(doc(db, "staff", "teacher1"), {
+        ?(setLogged(true), setDoc(doc(db, "staff", d.data().name), {
             isLogged: true,
             isAdmin: d.data().isAdmin,
             name: d.data().name,
@@ -27,7 +25,7 @@ const Login = (props) => {
         : setLogged(false)))})
     }
 
-    return (  
+    return (
         <div className="Login">
           <Box sx={{ flexGrow: 1 }}>
               <AppBar position="static">

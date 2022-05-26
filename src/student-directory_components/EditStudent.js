@@ -1,5 +1,5 @@
-import { React, useState } from 'react';
-import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from '@mui/material';
+import { React, useState, useRef } from 'react';
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from '@mui/material';
 import {ListItem, ListItemIcon, ListItemText, IconButton, Divider} from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
@@ -9,15 +9,20 @@ import {collection, doc, getDocs, updateDoc, deleteDoc} from "firebase/firestore
 const EditStudent = (props) => {
 
     console.log(props);
-    console.log("here")
+    console.log("here");
 
     const [isOpen, setIsOpen] = useState(false);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
+    const firstnameForm = useRef();
+    const lastnameForm = useRef();
+    const birthdayForm = useRef();
+    const gradeForm = useRef();
+
     function modalClick(e){
         e.preventDefault();
         setIsOpen(!isOpen);
-    }
+    };
 
     function deleteClick(e){
         e.preventDefault();
@@ -28,6 +33,20 @@ const EditStudent = (props) => {
         deleteDoc(doc(db, "students", "student-"+firstName+"-"+lastName));    
         setIsDeleteOpen(!isDeleteOpen)
     }
+    };
+    
+    const updateStudentInfo = async() => {
+        await updateDoc(doc(db, "students", props.studentId)), {
+            firstname: firstnameForm.current.value,
+            lastname: lastnameForm.current.value,
+            grade: gradeForm.current.value,
+            birthday: birthdayForm.current.value
+        }
+        console.log("Saved First Name: ", firstnameForm.current.value);
+        console.log("Saved Last Name: ", lastnameForm.current.value);
+        console.log("Saved Grade: ", gradeForm.current.value);
+        console.log("Saved Birthday: ", birthdayForm.current.value);
+    };
 
 
     const hoverStyle = {
@@ -57,20 +76,24 @@ const EditStudent = (props) => {
         </div>
 
         <Dialog open={isOpen}>
-            <DialogTitle>{props.firstname}</DialogTitle>
+            <DialogTitle>{props.firstname} {props.lastname}</DialogTitle>
             <DialogContent>
-                <TextField placeholder = "bruh" autoFocus margin="dense" id="firstname" label="First Name" type="text" fullWidth variant="standard"/>
-                <TextField autoFocus margin="dense" id="lastname" label="Last Name" type="text" fullWidth variant="standard"/>
-                <TextField autoFocus margin="dense" id="grade" label="Grade" type="text" fullWidth variant="standard"/>
-                <TextField autoFocus margin="dense" id="birthday" label="Birthday" type="text" fullWidth variant="standard"/>
+                <TextField autoFocus margin="dense" inputRef={firstnameForm} defaultValue={props.firstname} 
+                id="firstname" label="First Name" type="text" fullWidth variant="standard"/>
+                <TextField autoFocus margin="dense" inputRef={lastnameForm} defaultValue={props.lastname} 
+                id="lastname" label="Last Name" type="text" fullWidth variant="standard"/>
+                <TextField autoFocus margin="dense" inputRef={gradeForm} defaultValue={props.grade} 
+                id="grade" label="Grade" type="text" fullWidth variant="standard"/>
+                <TextField autoFocus margin="dense" inputRef={birthdayForm} defaultValue={props.birthday} 
+                id="birthday" label="Birthday" type="text" fullWidth variant="standard"/>
             </DialogContent>
             <DialogActions>
-                <Button onClick={modalClick}>Save</Button>
+                <Button onClick={() => {updateStudentInfo(); modalClick}}>Save</Button>
                 <Button onClick={modalClick}>Exit</Button>
             </DialogActions>
         </Dialog>
         <Dialog open={isDeleteOpen}>
-            <DialogTitle>Are you sure you want to delete {props.firstname}?</DialogTitle>
+            <DialogTitle>Are you sure you want to delete this student's profile ({props.firstname})?</DialogTitle>
             <DialogActions>
                 <Button onClick={actuallyDeleteClick(props.firstname, props.lastname)}>Confirm</Button>
                 <Button onClick={deleteClick}>Cancel</Button>

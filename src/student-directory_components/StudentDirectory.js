@@ -3,11 +3,7 @@ import Navbar from '../Navbar.js';
 import {List, IconButton, Grid} from '@mui/material';
 import AddReactionIcon from '@mui/icons-material/AddReaction';
 import db from '../firebase.js'
-<<<<<<< HEAD
 import {collection, doc, getDocs, updateDoc, deleteDoc} from "firebase/firestore";
-=======
-import {collection, getDocs} from "firebase/firestore";
->>>>>>> ae73b174d9f1738e97f4fbabdb1bb02d8824b229
 import { useLocation } from "react-router-dom";
 import EditStudent from './EditStudent.js';
 
@@ -55,12 +51,8 @@ const StudentDirectory = () => {
                 {
                     students.map((student) => {
                         console.log(student)
-<<<<<<< HEAD
-                        return (<EditStudent studentId={student.id} firstname={student.firstname} lastname={student.lastname} />)
-=======
                         return (<EditStudent studentId={student.id} firstname={student.firstname} 
                             lastname={student.lastname} birthday={student.birthday} grade={student.grade}/>)
->>>>>>> ae73b174d9f1738e97f4fbabdb1bb02d8824b229
                     })
                 }
             </List>

@@ -19,7 +19,6 @@ function Event(props) {
   return (
     <div className="Event">
       <p><b>Name:</b> {props.data.title} | <b>Date:</b> {props.data.date} </p>
-      <Button onClick={props.func(props.data.title)} variant="contained">Delete</Button>
     </div>
   );
 }

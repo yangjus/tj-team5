@@ -32,7 +32,7 @@ const EditStudent = (props) => {
     function actuallyDeleteClick() {
         deleteDoc(doc(db, "students", props.studentId));
     }
-    
+
     const updateStudentInfo = async() => {
         console.log("Saved First Name: ", firstnameForm.current.value);
         console.log("Saved Last Name: ", lastnameForm.current.value);
@@ -77,13 +77,13 @@ const EditStudent = (props) => {
         <Dialog open={isOpen}>
             <DialogTitle>{props.firstname} {props.lastname}</DialogTitle>
             <DialogContent>
-                <TextField autoFocus margin="dense" inputRef={firstnameForm} defaultValue={props.firstname} 
+                <TextField autoFocus margin="dense" inputRef={firstnameForm} defaultValue={props.firstname}
                 id="firstname" label="First Name" type="text" fullWidth variant="standard"/>
-                <TextField autoFocus margin="dense" inputRef={lastnameForm} defaultValue={props.lastname} 
+                <TextField autoFocus margin="dense" inputRef={lastnameForm} defaultValue={props.lastname}
                 id="lastname" label="Last Name" type="text" fullWidth variant="standard"/>
-                <TextField autoFocus margin="dense" inputRef={gradeForm} defaultValue={props.grade} 
+                <TextField autoFocus margin="dense" inputRef={gradeForm} defaultValue={props.grade}
                 id="grade" label="Grade" type="text" fullWidth variant="standard"/>
-                <TextField autoFocus margin="dense" inputRef={birthdayForm} defaultValue={props.birthday} 
+                <TextField autoFocus margin="dense" inputRef={birthdayForm} defaultValue={props.birthday}
                 id="birthday" label="Birthday" type="text" fullWidth variant="standard"/>
             </DialogContent>
             <DialogActions>

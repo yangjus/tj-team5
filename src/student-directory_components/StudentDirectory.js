@@ -20,11 +20,6 @@ const StudentDirectory = () => {
     const birthdayForm = useRef();
     const gradeForm = useRef();
 
-    const firstnameForm = useRef();
-    const lastnameForm = useRef();
-    const gradeForm = useRef();
-    const birthdayForm = useRef();
-
     const printStudents = async () => {
         const documents = await getDocs(collection(db, "students"));
         console.log(documents);

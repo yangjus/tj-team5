@@ -1,5 +1,5 @@
 import { React, useState, useRef } from 'react';
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Grid} from '@mui/material';
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Grid, Typography} from '@mui/material';
 import {ListItem, ListItemIcon, ListItemText, IconButton, Divider} from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 import InfoIcon from '@mui/icons-material/Info';
@@ -11,6 +11,7 @@ const ClassInfo = (props) => {
 
   const [isOpen, setIsOpen] = useState(false);
   const [students, setStudents] = useState([]);
+  const [teacher, setTeacher] = useState("");
 
   function ClassesOpen(e){
       e.preventDefault();
@@ -25,20 +26,18 @@ const ClassInfo = (props) => {
   };
 
   const showStudents = async () => {
-    const documents = await getDocs(collection(db, "students"));
+    console.log("running!")
+    const documents = await getDocs(collection(db, "grades"));
     let list = [];
-    documents.forEach((student) => list.push({id: student.id, ...student.data()}));
+    documents.forEach((classes) => list.push({id: classes.id, ...classes.data()}));
+    for (let i = 0; i < list.length; i++){
+      if (props.name == list[i].id){
+        setTeacher(list[i].teacher)
+      }
+    }
+    console.log(teacher)
     setStudents(list)
-    
-    //for (let i = 0; i<students.length; i++){
-     // const docs = await getDocs(db.collection('students').doc(students[i]).collection('grades'))
-    //  console.log(docs)
-    //}
-    const sRef = db.collection('students').doc('student 1');
-    //const collections = await sRef.listCollections();
-    //collections.forEach(collection => {
-    //console.log('Found subcollection with id:', collection.id);
-    //});
+    console.log(students)
   }
 
   return(
@@ -47,7 +46,7 @@ const ClassInfo = (props) => {
       <ListItem style={{ hoverStyle }}>
           <ListItemText primary={<p>{props.name}</p>} fontSize="1em"/>
           <ListItemIcon>
-              <IconButton onClick={e => ClassesOpen(e)} edge="end" style={{ color: 'white', backgroundColor: 'green'}}>
+              <IconButton onClick={e => {ClassesOpen(e); showStudents()}} edge="end" style={{ color: 'white', backgroundColor: 'green'}}>
                   <InfoIcon />
               </IconButton>
           </ListItemIcon>
@@ -60,10 +59,11 @@ const ClassInfo = (props) => {
               <ClearIcon onClick={ClassesOpen}></ClearIcon>
             </Grid>
             <DialogTitle>Math 101</DialogTitle>
+            <Typography>Teacher: {teacher}</Typography>
             <DialogContent>
-                <Grid item marginTop={2}>
-                  <div className='editclassbtn'><Button variant="contained" justifycontent= "center" onClick={showStudents()}>Edit Class information</Button></div>
-                </Grid>
+                {/*<Grid item marginTop={2}>
+                  <div className='editclassbtn'><Button variant="contained" justifycontent= "center" onClick={showStudents}>Edit Class information</Button></div>
+                </Grid>*/}
             </DialogContent>
         </Dialog>
     </>

@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Navbar from '../Navbar.js';
+import {List, IconButton} from '@mui/material';
+import AddReactionIcon from '@mui/icons-material/AddReaction';
+import db from '../firebase.js'
+import {collection, getDocs} from "firebase/firestore";
 import { useLocation } from "react-router-dom";
 import { Button, Grid, Dialog, DialogTitle,DialogContent } from '@mui/material';
-import { useState } from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
-import db from '../firebase'
-import { collection,getDocs } from 'firebase/firestore';
 const Classes = () => {
     const {state} = useLocation();
     const { username } = state;
-    const[Classes,setClasses] = useState([])
     const[ClassesOpen,setClassesOpen] = useState(false)
 
     const btnSize = {
@@ -28,12 +28,32 @@ const Classes = () => {
     const showStudents = async () => {
         const classes = await getDocs(collection(db, "classes"));
         console.log(classes)
-        let list = [];
-        documents.forEach((classes) => list.push({id: classes.id, ...classes.data()}));
-        setStudents(list);
+        
         
     
     }
+
+    const [classes, setClasses] = useState([])
+
+    const printClass = async () => {
+        const documents = await getDocs(collection(db, "classes"));
+        let list = [];
+        documents.forEach((member) => list.push({id: member.id, ...member.data()}));
+        setClasses(list);
+    }
+
+    useEffect(() => {
+        printClass();
+    }, []);
+
+    const commonStyles = {
+        bgcolor: '#ADD8E6',
+        borderColor: 'text.primary',
+        m: 1,
+        border: 1,
+        width: '80vh',
+    };
+
 
     return (
         <>

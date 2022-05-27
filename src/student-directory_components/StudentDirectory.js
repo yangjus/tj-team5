@@ -12,13 +12,13 @@ const StudentDirectory = () => {
     const {state} = useLocation();
     const { username } = state; /*the user */
 
-    const [students, setStudents] = useState([]);
-    const [isAddOpen, setIsAddOpen] = useState(false);
+    const [students, setStudents] = useState([])
+    const [isAddOpen, setIsAddOpen] = useState(false)
 
     const firstnameForm = useRef();
     const lastnameForm = useRef();
-    const gradeForm = useRef();
     const birthdayForm = useRef();
+    const gradeForm = useRef();
 
     const printStudents = async () => {
         const documents = await getDocs(collection(db, "students"));
@@ -97,7 +97,7 @@ const StudentDirectory = () => {
                 <Button onClick={(e) => {addStudent(); addClick(e)}}>Save</Button>
                 <Button onClick={addClick}>Exit</Button>
             </DialogActions>
-        </Dialog>
+            </Dialog>
         </>
     );
 }

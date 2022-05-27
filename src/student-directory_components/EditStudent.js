@@ -3,7 +3,7 @@ import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} fr
 import {ListItem, ListItemIcon, ListItemText, IconButton, Divider} from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
-import {doc, updateDoc} from "firebase/firestore";
+import {doc, updateDoc, deleteDoc} from "firebase/firestore";
 import db from "../firebase.js";
 
 const EditStudent = (props) => {
@@ -28,7 +28,11 @@ const EditStudent = (props) => {
         e.preventDefault();
         setIsDeleteOpen(!isDeleteOpen);
     };
-    
+
+    function actuallyDeleteClick() {
+        deleteDoc(doc(db, "students", props.studentId));
+    }
+
     const updateStudentInfo = async() => {
         console.log("Saved First Name: ", firstnameForm.current.value);
         console.log("Saved Last Name: ", lastnameForm.current.value);
@@ -55,7 +59,7 @@ const EditStudent = (props) => {
         <>
         <div key={props.studentId}>
         <ListItem style={{ hoverStyle }}>
-            <ListItemText primary={props.firstname} fontSize="0.7em"/>
+            <ListItemText primary={<p>{props.firstname} {props.lastname}</p>} fontSize="1em"/>
             <ListItemIcon>
                 <IconButton onClick={e => modalClick(e)} edge="end" style={{ color: 'white', backgroundColor: 'green'}}>
                     <EditIcon />
@@ -73,13 +77,13 @@ const EditStudent = (props) => {
         <Dialog open={isOpen}>
             <DialogTitle>{props.firstname} {props.lastname}</DialogTitle>
             <DialogContent>
-                <TextField autoFocus margin="dense" inputRef={firstnameForm} defaultValue={props.firstname} 
+                <TextField autoFocus margin="dense" inputRef={firstnameForm} defaultValue={props.firstname}
                 id="firstname" label="First Name" type="text" fullWidth variant="standard"/>
-                <TextField autoFocus margin="dense" inputRef={lastnameForm} defaultValue={props.lastname} 
+                <TextField autoFocus margin="dense" inputRef={lastnameForm} defaultValue={props.lastname}
                 id="lastname" label="Last Name" type="text" fullWidth variant="standard"/>
-                <TextField autoFocus margin="dense" inputRef={gradeForm} defaultValue={props.grade} 
+                <TextField autoFocus margin="dense" inputRef={gradeForm} defaultValue={props.grade}
                 id="grade" label="Grade" type="text" fullWidth variant="standard"/>
-                <TextField autoFocus margin="dense" inputRef={birthdayForm} defaultValue={props.birthday} 
+                <TextField autoFocus margin="dense" inputRef={birthdayForm} defaultValue={props.birthday}
                 id="birthday" label="Birthday" type="text" fullWidth variant="standard"/>
             </DialogContent>
             <DialogActions>
@@ -90,7 +94,7 @@ const EditStudent = (props) => {
         <Dialog open={isDeleteOpen}>
             <DialogTitle>Are you sure you want to delete this student's profile ({props.firstname} {props.lastname})?</DialogTitle>
             <DialogActions>
-                <Button onClick={deleteClick}>Save</Button>
+                <Button onClick={(e) => {actuallyDeleteClick(); deleteClick(e)}}>Confirm</Button>
                 <Button onClick={deleteClick}>Exit</Button>
             </DialogActions>
         </Dialog>

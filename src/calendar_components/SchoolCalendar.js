@@ -63,8 +63,6 @@ const SchoolCalendar = () => {
       handleaddClose();
     }
 
-
-
     const deleteEvent = async(title, date) =>{
        await deleteDoc(doc(db, "events", title));
        let list = []
@@ -76,7 +74,6 @@ const SchoolCalendar = () => {
 
        setEvents(list)
     }
-
 
     return (
         <>

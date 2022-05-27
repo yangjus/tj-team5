@@ -11,7 +11,6 @@ import EditStaff from './EditStaff.js';
 const TeacherDirectory = () => {
 
     const state = useLocation();
-    console.log(location);
     const { userId } = state || {}; /*the user */
     console.log("userid: ", userId);
     const [isAddOpen, setIsAddOpen] = useState(false);

@@ -28,7 +28,17 @@ const ClassInfo = (props) => {
     const documents = await getDocs(collection(db, "students"));
     let list = [];
     documents.forEach((student) => list.push({id: student.id, ...student.data()}));
-    console.log(list);
+    setStudents(list)
+    
+    //for (let i = 0; i<students.length; i++){
+     // const docs = await getDocs(db.collection('students').doc(students[i]).collection('grades'))
+    //  console.log(docs)
+    //}
+    const sRef = db.collection('students').doc('student 1');
+    //const collections = await sRef.listCollections();
+    //collections.forEach(collection => {
+    //console.log('Found subcollection with id:', collection.id);
+    //});
   }
 
   return(

@@ -1,17 +1,18 @@
 import { React, useState, useRef } from 'react';
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from '@mui/material';
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Grid} from '@mui/material';
 import {ListItem, ListItemIcon, ListItemText, IconButton, Divider} from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
+import ClearIcon from '@mui/icons-material/Clear';
 import InfoIcon from '@mui/icons-material/Info';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
-import {doc, updateDoc, deleteDoc} from "firebase/firestore";
+import {doc, updateDoc, deleteDoc, getDocs, collection} from "firebase/firestore";
 import db from "../firebase.js";
 
 const ClassInfo = (props) => {
 
   const [isOpen, setIsOpen] = useState(false);
+  const [students, setStudents] = useState([]);
 
-  function modalClick(e){
+  function ClassesOpen(e){
       e.preventDefault();
       setIsOpen(!isOpen);
   };
@@ -23,19 +24,38 @@ const ClassInfo = (props) => {
     }
   };
 
+  const showStudents = async () => {
+    const documents = await getDocs(collection(db, "students"));
+    let list = [];
+    documents.forEach((student) => list.push({id: student.id, ...student.data()}));
+    console.log(list);
+  }
+
   return(
     <>
       <div key={props.memberId}>
       <ListItem style={{ hoverStyle }}>
           <ListItemText primary={<p>{props.name}</p>} fontSize="1em"/>
           <ListItemIcon>
-              <IconButton onClick={e => modalClick(e)} edge="end" style={{ color: 'white', backgroundColor: 'green'}}>
+              <IconButton onClick={e => ClassesOpen(e)} edge="end" style={{ color: 'white', backgroundColor: 'green'}}>
                   <InfoIcon />
               </IconButton>
           </ListItemIcon>
       </ListItem>
       <Divider light/>
       </div>
+
+      <Dialog open={isOpen}>
+            <Grid item marginTop={2} marginLeft={28}>
+              <ClearIcon onClick={ClassesOpen}></ClearIcon>
+            </Grid>
+            <DialogTitle>Math 101</DialogTitle>
+            <DialogContent>
+                <Grid item marginTop={2}>
+                  <div className='editclassbtn'><Button variant="contained" justifycontent= "center" onClick={showStudents()}>Edit Class information</Button></div>
+                </Grid>
+            </DialogContent>
+        </Dialog>
     </>
   )
 }

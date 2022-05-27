@@ -10,8 +10,9 @@ import db from "../firebase.js";
 const ClassInfo = (props) => {
 
   const [isOpen, setIsOpen] = useState(false);
-  const [students, setStudents] = useState([]);
+  const [studentList, setStudentList] = useState([]);
   const [teacher, setTeacher] = useState("");
+  const [student, setStudent] = useState()
 
   function ClassesOpen(e){
       e.preventDefault();
@@ -35,9 +36,22 @@ const ClassInfo = (props) => {
         setTeacher(list[i].teacher)
       }
     }
+    let keyList = []
+    for (let i = 0; i < list.length; i++){
+      if (props.name == list[i].id){
+        Object.keys(list[i]).map(function(key, index) {
+          if(key != "teacher" && key != "id"){
+            keyList.push(key)
+          }
+        });
+      }   
+    }
+    setStudentList(keyList)
     console.log(teacher)
-    setStudents(list)
-    console.log(students)
+    setStudentList(list)
+    console.log(student)
+    console.log(list)
+    console.log(keyList)
   }
 
   return(
@@ -60,6 +74,10 @@ const ClassInfo = (props) => {
             </Grid>
             <DialogTitle>Math 101</DialogTitle>
             <Typography>Teacher: {teacher}</Typography>
+            <Typography>List of Students: </Typography>
+            {Object.entries(studentList).map(([key, value]) => (
+              {value}
+              ))}
             <DialogContent>
                 {/*<Grid item marginTop={2}>
                   <div className='editclassbtn'><Button variant="contained" justifycontent= "center" onClick={showStudents}>Edit Class information</Button></div>

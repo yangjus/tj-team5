@@ -54,8 +54,10 @@ const StudentDirectory = () => {
             grade: gradeForm.current.value,
             birthday: birthdayForm.current.value
         }
+        const nameIdString = "student_" + String(obj.firstname) + "_" + String(obj.lastname)
+        console.log(nameIdString)
         console.log(obj);
-        await setDoc(doc(db, "students", "ok"), obj);
+        await setDoc(doc(db, "students", nameIdString), obj);
     };
 
     return (
@@ -92,7 +94,7 @@ const StudentDirectory = () => {
                 id="birthday" label="Birthday" type="text" fullWidth variant="standard"/>
             </DialogContent>
             <DialogActions>
-                <Button onClick={addClick}>Save</Button>
+                <Button onClick={(e) => {addStudent(); addClick(e)}}>Save</Button>
                 <Button onClick={addClick}>Exit</Button>
             </DialogActions>
             </Dialog>

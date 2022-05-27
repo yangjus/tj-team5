@@ -9,7 +9,6 @@ import {collection, doc, getDocs, updateDoc, setDoc, deleteDoc} from "firebase/f
 import ClearIcon from '@mui/icons-material/Clear';
 import Event from './Event.js'
 
-
 const SchoolCalendar = () => {
 
     const {state} = useLocation();
@@ -87,6 +86,9 @@ const SchoolCalendar = () => {
             <Grid item xs={1.5}>
                 <Button variant="contained" onClick={handleaddOpen}>Add Event</Button>
             </Grid>
+            {/*<Grid item xs={1.5}>
+                <Button color="secondary" variant="contained" onClick={handleEditOpen}>Edit Event</Button>
+            </Grid>*/}
             <Grid item xs={1.5}>
                 <Button color="error" variant="contained" onClick={handleDelOpen}>Delete Event</Button>
             </Grid>
@@ -98,11 +100,11 @@ const SchoolCalendar = () => {
             <DialogTitle>Add Event</DialogTitle>
             <DialogContent>
                 <Typography variant="h6">Title</Typography>
-                <TextField onChange={(e) => {setInputTitle(e.target.value)}}>Title</TextField>
+                <TextField onChange={(e) => {setInputTitle(e.target.value)}} placeholder='Title'>Title</TextField>
                 <Typography variant="h6">Date</Typography>
-                <TextField onChange={(e) => {setInputDate(e.target.value)}}>date</TextField>
+                <TextField onChange={(e) => {setInputDate(e.target.value)}} placeholder='YYYY-MM-DD'>Date</TextField>
                 <Grid item marginTop={2}>
-                  <div className='addButton'><Button variant="contained" justifyContent= "center" onClick={addEvent}>Add Event</Button></div>
+                  <div className='addButton'><Button variant="contained" justifycontent= "center" onClick={addEvent}>Add Event</Button></div>
                 </Grid>
             </DialogContent>
         </Dialog>

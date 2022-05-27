@@ -3,7 +3,7 @@ import Navbar from '../Navbar.js';
 import {List, IconButton, Grid, Dialog, DialogActions, Button, DialogTitle, DialogContent, TextField} from '@mui/material';
 import AddReactionIcon from '@mui/icons-material/AddReaction';
 import db from '../firebase.js'
-import {collection, doc, getDocs, updateDoc, deleteDoc, setDoc} from "firebase/firestore";
+import {collection, getDocs, setDoc, doc } from "firebase/firestore";
 import { useLocation } from "react-router-dom";
 import EditStudent from './EditStudent.js';
 
@@ -19,6 +19,11 @@ const StudentDirectory = () => {
     const lastnameForm = useRef();
     const birthdayForm = useRef();
     const gradeForm = useRef();
+
+    const firstnameForm = useRef();
+    const lastnameForm = useRef();
+    const gradeForm = useRef();
+    const birthdayForm = useRef();
 
     const printStudents = async () => {
         const documents = await getDocs(collection(db, "students"));
@@ -54,8 +59,8 @@ const StudentDirectory = () => {
             grade: gradeForm.current.value,
             birthday: birthdayForm.current.value
         }
-        const nameIdString = "student_" + String(obj.firstname) + "_" + String(obj.lastname)
-        console.log(nameIdString)
+        const nameIdString = "student_" + String(obj.firstname) + "_" + String(obj.lastname);
+        console.log(nameIdString);
         console.log(obj);
         await setDoc(doc(db, "students", nameIdString), obj);
     };

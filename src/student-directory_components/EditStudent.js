@@ -3,8 +3,8 @@ import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} fr
 import {ListItem, ListItemIcon, ListItemText, IconButton, Divider} from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
-import db from '../firebase.js'
-import {collection, doc, getDocs, updateDoc, deleteDoc} from "firebase/firestore";
+import {doc, updateDoc, deleteDoc} from "firebase/firestore";
+import db from "../firebase.js";
 
 const EditStudent = (props) => {
 

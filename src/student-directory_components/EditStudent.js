@@ -48,6 +48,7 @@ const EditStudent = (props) => {
         await updateDoc(doc(db, "students", props.studentId), obj);
     };
 
+
     const hoverStyle = {
         bgcolor: '#ADD8E6',
         '&:hover $child': {

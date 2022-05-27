@@ -1,17 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Navbar from '../Navbar.js';
-import {List, IconButton, Grid} from '@mui/material';
+import {List, IconButton, Grid, Button} from '@mui/material';
 import AddReactionIcon from '@mui/icons-material/AddReaction';
 import db from '../firebase.js'
 import {collection, getDocs} from "firebase/firestore";
 import { useLocation } from "react-router-dom";
-<<<<<<< HEAD
-import {Button} from '@mui/material';
-import {collection, getDocs, setDoc, doc } from "firebase/firestore";
-import db from '../firebase.js'
-=======
 import ClassInfo from './ClassInfo.js'
->>>>>>> b72fc31df5ad466618287616c0bd2a84735d3b28
 
 async function showRecords(){
   const documents = await getDocs(collection(db, "students"));
@@ -48,11 +42,6 @@ const Classes = () => {
 
     return (
         <>
-<<<<<<< HEAD
-            <Navbar />
-            <Button variant="contained" onClick={showRecords}>Show Records</Button>
-            <h1>This is the Classes page</h1>
-=======
         <Navbar />
         <h1>Class Directory</h1>
         {/*<Grid container direction="row" alignItems="center" justifyContent="center">
@@ -71,7 +60,6 @@ const Classes = () => {
                 }
             </List>
         </Grid>
->>>>>>> b72fc31df5ad466618287616c0bd2a84735d3b28
         </>
     );
 }

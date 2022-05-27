@@ -12,6 +12,8 @@ const ClassInfo = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [students, setStudents] = useState([]);
   const [teacher, setTeacher] = useState("");
+  const [listOfStudents, setListOfStudents] = useState([]);
+  const [average, setAverage] = useState([]);
 
   function ClassesOpen(e){
       e.preventDefault();
@@ -26,7 +28,6 @@ const ClassInfo = (props) => {
   };
 
   const showStudents = async () => {
-    console.log("running!")
     const documents = await getDocs(collection(db, "grades"));
     let list = [];
     documents.forEach((classes) => list.push({id: classes.id, ...classes.data()}));
@@ -35,9 +36,40 @@ const ClassInfo = (props) => {
         setTeacher(list[i].teacher)
       }
     }
-    console.log(teacher)
     setStudents(list)
-    console.log(students)
+    let templist = []
+    for (let i = 0; i < list.length; i++){
+      if (props.name == list[i].id){
+        Object.keys(list[i]).map(function(key, index) {
+          if (key != "id" && key != "teacher"){
+            templist.push(key)
+          }
+        });
+      }
+    }
+    setListOfStudents(templist)
+    let tempListOfGrades = []
+    for (let i = 0; i < list.length; i++){
+      if (props.name == list[i].id){
+        Object.keys(list[i]).map(function(key, index) {
+          if (key != "id" && key != "teacher"){
+            tempListOfGrades.push(list[i][key])
+          }
+        });
+      }
+    }
+    let grade = 0
+    let j = 0
+    for (let i = 0; i < tempListOfGrades.length; i++){
+      console.log(parseInt(tempListOfGrades[i]))
+      grade = grade + parseInt(tempListOfGrades[i]);
+      j++;
+    }
+    console.log(grade)
+    grade = grade/j;
+    console.log(grade)
+    setAverage(grade)
+
   }
 
   return(
@@ -55,15 +87,25 @@ const ClassInfo = (props) => {
       </div>
 
       <Dialog open={isOpen}>
-            <Grid item marginTop={2} marginLeft={28}>
+            <Grid item marginTop={2} marginLeft={25} alignItems="center">
               <ClearIcon onClick={ClassesOpen}></ClearIcon>
             </Grid>
-            <DialogTitle>Math 101</DialogTitle>
-            <Typography>Teacher: {teacher}</Typography>
+            <Grid>
+              <h3><b>{props.name}</b></h3>
+            </Grid>
+            <Grid>
+              <Typography><b>Teacher:</b> {teacher}</Typography>
+            </Grid>
+            <Typography><b>Class Average:</b> {average} %</Typography>
+            <p><b>List of Students:</b></p>
+            {Object.entries(listOfStudents)
+              .map( ([key, value]) =>
+              <ListItem>
+                <ListItemText>{value}</ListItemText>
+              </ListItem>
+             )}
             <DialogContent>
-                {/*<Grid item marginTop={2}>
-                  <div className='editclassbtn'><Button variant="contained" justifycontent= "center" onClick={showStudents}>Edit Class information</Button></div>
-                </Grid>*/}
+
             </DialogContent>
         </Dialog>
     </>

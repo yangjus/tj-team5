@@ -27,10 +27,10 @@ const EditStudent = (props) => {
     function deleteClick(e){
         e.preventDefault();
         setIsDeleteOpen(!isDeleteOpen);
-    }
+    };
 
-    function actuallyDeleteClick(){
-        deleteDoc(doc(db, "students", props.studentId));    
+    function actuallyDeleteClick() {
+        deleteDoc(doc(db, "students", props.studentId));
     }
     
     const updateStudentInfo = async() => {
@@ -60,7 +60,7 @@ const EditStudent = (props) => {
         <>
         <div key={props.studentId}>
         <ListItem style={{ hoverStyle }}>
-            <ListItemText primary={props.firstname} fontSize="0.7em"/>
+            <ListItemText primary={<p>{props.firstname} {props.lastname}</p>} fontSize="1em"/>
             <ListItemIcon>
                 <IconButton onClick={e => modalClick(e)} edge="end" style={{ color: 'white', backgroundColor: 'green'}}>
                     <EditIcon />
@@ -96,7 +96,7 @@ const EditStudent = (props) => {
             <DialogTitle>Are you sure you want to delete this student's profile ({props.firstname} {props.lastname})?</DialogTitle>
             <DialogActions>
                 <Button onClick={(e) => {actuallyDeleteClick(); deleteClick(e)}}>Confirm</Button>
-                <Button onClick={deleteClick}>Cancel</Button>
+                <Button onClick={deleteClick}>Exit</Button>
             </DialogActions>
         </Dialog>
         </>

@@ -1,7 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Navbar from '../Navbar.js';
+<<<<<<< HEAD
 import {List, IconButton, Grid} from '@mui/material';
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from '@mui/material';
+=======
+import {List, IconButton, Grid, Dialog, DialogActions, Button, DialogTitle, DialogContent, TextField} from '@mui/material';
+>>>>>>> d32c55e6760fc128fdac16e4a70cf60224bf984c
 import AddReactionIcon from '@mui/icons-material/AddReaction';
 import db from '../firebase.js'
 import {collection, doc, getDocs, updateDoc, deleteDoc, setDoc} from "firebase/firestore";
@@ -13,6 +17,7 @@ const StudentDirectory = () => {
     const {state} = useLocation();
     const { username } = state; /*the user */
 
+<<<<<<< HEAD
     const [students, setStudents] = useState([])
     const [isAddOpen, setIsAddOpen] = useState(false)
 
@@ -20,6 +25,10 @@ const StudentDirectory = () => {
     const lastnameForm = useRef();
     const birthdayForm = useRef();
     const gradeForm = useRef();
+=======
+    const [students, setStudents] = useState([]);
+    const [isAddOpen, setIsAddOpen] = useState(false);
+>>>>>>> d32c55e6760fc128fdac16e4a70cf60224bf984c
 
     const printStudents = async () => {
         const documents = await getDocs(collection(db, "students"));
@@ -27,7 +36,7 @@ const StudentDirectory = () => {
         let list = [];
         documents.forEach((student) => list.push({id: student.id, ...student.data()}));
         setStudents(list);
-    }
+    };
 
     useEffect(() => {
         printStudents();
@@ -41,7 +50,23 @@ const StudentDirectory = () => {
         width: '80vh',
     };
 
-    console.log(students)
+    console.log(students);
+
+    function addClick(e){
+        e.preventDefault();
+        setIsAddOpen(!isAddOpen);
+    };
+
+    const addStudent = async() => {
+        let obj = {
+            firstname: firstnameForm.current.value,
+            lastname: lastnameForm.current.value,
+            grade: gradeForm.current.value,
+            birthday: birthdayForm.current.value
+        }
+        console.log(obj);
+        await setDoc(doc(db, "students", "ok"), obj);
+    };
 
     function addClick(e){
         e.preventDefault();
@@ -83,6 +108,7 @@ const StudentDirectory = () => {
         <Dialog open={isAddOpen}>
             <DialogTitle>Add New Student</DialogTitle>
             <DialogContent>
+<<<<<<< HEAD
                 <TextField autoFocus margin="dense" inputRef={firstnameForm}
                 id="firstname" label="First Name" type="text" fullWidth variant="standard"/>
                 <TextField autoFocus margin="dense" inputRef={lastnameForm}
@@ -90,13 +116,26 @@ const StudentDirectory = () => {
                 <TextField autoFocus margin="dense" inputRef={gradeForm}
                 id="grade" label="Grade" type="text" fullWidth variant="standard"/>
                 <TextField autoFocus margin="dense" inputRef={birthdayForm}
+=======
+                <TextField autoFocus margin="dense"
+                id="firstname" label="First Name" type="text" fullWidth variant="standard"/>
+                <TextField autoFocus margin="dense"
+                id="lastname" label="Last Name" type="text" fullWidth variant="standard"/>
+                <TextField autoFocus margin="dense"
+                id="grade" label="Grade" type="text" fullWidth variant="standard"/>
+                <TextField autoFocus margin="dense"
+>>>>>>> d32c55e6760fc128fdac16e4a70cf60224bf984c
                 id="birthday" label="Birthday" type="text" fullWidth variant="standard"/>
             </DialogContent>
             <DialogActions>
                 <Button onClick={addClick}>Save</Button>
                 <Button onClick={addClick}>Exit</Button>
             </DialogActions>
+<<<<<<< HEAD
             </Dialog>
+=======
+        </Dialog>
+>>>>>>> d32c55e6760fc128fdac16e4a70cf60224bf984c
         </>
     );
 }

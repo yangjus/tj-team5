@@ -4,20 +4,24 @@ import {Grid, Button} from '@mui/material';
 import TJES from './images/TJES.JPG'
 import { useLocation, useNavigate } from "react-router-dom";
 
+/*
+Note: your files should be named HomePage (with that capitalization). No need for _components or dashes.
+*/
+//These type of static definitions can be defined above the main function.
+const btnSize = {
+    maxWidth: "40vh",
+    maxHeight: "45vh",
+    minWidth: "40vh",
+    minHeight: "45vh",
+};
+
+const photoSize = {
+    height: "30vh",
+    width: "100vh",
+}
+    
 const Home = () => {
     const navigate = useNavigate()
-
-    const btnSize = {
-        maxWidth: "40vh",
-        maxHeight: "45vh",
-        minWidth: "40vh",
-        minHeight: "45vh",
-    };
-
-    const photoSize = {
-        height: "30vh",
-        width: "100vh",
-    }
 
     const {state} = useLocation();
     const { username, userId } = state || {};
